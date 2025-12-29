@@ -14,7 +14,7 @@ window.RUST = {
       id: "c4",
       name: "C4",
       unit: "C4",
-      img: "assets/items/c4.png",
+      img: "assets/items/C4.png",
       recipe: { explosives: 20, cloth: 5, techtrash: 2 }
     },
     {
@@ -48,3 +48,4 @@ window.RUST = {
     }
   ]
 };
+
