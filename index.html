@@ -5,6 +5,14 @@
   <meta charset="utf-8">
   <title>Rust Raid Calc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicons -->
+  <link rel="icon" href="./favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./web-app-manifest-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./web-app-manifest-512x512.png">
+  <link rel="apple-touch-icon" href="./web-app-manifest-192x192.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -18,17 +26,17 @@
         </a>
       </div>
 
-
       <nav class="topbar-nav" aria-label="Menu">
         <button class="nav-btn is-active" type="button" data-target="tab-craft">Plan de craft</button>
         <button class="nav-btn" type="button" data-target="tab-decay">Timer decay</button>
-        <button class="nav-btn is-disabled" type="button" disabled>Destruction (bientôt)</button>
+        <button class="nav-btn" type="button" data-target="tab-destruction">Destruction</button>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- ONGLET 1 -->
+
+    <!-- ONGLET 1 : PLAN DE CRAFT -->
     <section id="tab-craft" class="tab-pane is-active">
 
       <section class="resources">
@@ -54,7 +62,7 @@
             <label>HQM <input id="hqm" type="number" value="0"></label>
           </div>
 
-          <button id="calc" class="btn">Calculer</button>
+          <button id="calc" class="btn" type="button">Calculer</button>
         </div>
       </section>
 
@@ -86,7 +94,7 @@
               <div class="hint">Décoche pour voir le “from scratch”.</div>
             </div>
 
-            <button id="goal-calc" class="btn goal-btn">Calculer besoins</button>
+            <button id="goal-calc" class="btn goal-btn" type="button">Calculer besoins</button>
           </div>
 
           <div id="goal-result" class="goal-result">Choisis un item et une quantité.</div>
@@ -122,13 +130,11 @@
               <div class="decay-max-wrap">
                 <input id="decay-max" type="number" min="1" value="500" autocomplete="off">
                 <button id="decay-max-lock" type="button" class="mini-btn lock-btn" aria-pressed="true"
-                  title="Déverrouiller PV max">
-                  🔒
-                </button>
+                  title="Déverrouiller PV max">🔒</button>
               </div>
             </label>
 
-            <button id="decay-calc" class="btn decay-btn">Calculer le temps restant</button>
+            <button id="decay-calc" class="btn decay-btn" type="button">Calculer le temps restant</button>
 
             <div class="hint decay-hint" id="decay-max-hint"></div>
           </div>
@@ -141,6 +147,80 @@
             <button id="decay-copy" type="button" class="mini-btn">Copier le timer</button>
             <button id="decay-copy-end" type="button" class="mini-btn">Copier l’heure de fin</button>
           </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ONGLET 3 : DESTRUCTION -->
+    <section id="tab-destruction" class="tab-pane">
+      <section class="raid">
+        <div class="raid-inner">
+          <h2>Destruction</h2>
+
+          <div class="raid-filters">
+            <div class="raid-cats" aria-label="Catégories">
+              <button class="raid-pill is-active" type="button" data-cat="all">Tout</button>
+              <button class="raid-pill" type="button" data-cat="doors">Portes</button>
+              <button class="raid-pill" type="button" data-cat="walls">Murs</button>
+            </div>
+
+            <div class="raid-tools">
+              <label class="raid-field">
+                Rechercher
+                <input id="raid-search" type="text" placeholder="Ex: garage, sheet, hqm…">
+              </label>
+
+              <label class="raid-field">
+                Tri
+                <select id="raid-sort">
+                  <option value="best_sulfur">Option la moins chère (soufre)</option>
+                  <option value="name_asc">Nom (A → Z)</option>
+                  <option value="hp_desc">HP (desc)</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="raid-table-wrap" aria-label="Tableau destruction">
+            <table class="raid-table" id="raid-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>HP</th>
+                  <th>Satchel</th>
+                  <th>Rocket</th>
+                  <th>C4</th>
+                  <th>Explo ammo</th>
+                  <th>Best (soufre)</th>
+                  <th>+</th>
+                </tr>
+              </thead>
+
+              <tbody id="raid-tbody"></tbody>
+            </table>
+          </div>
+
+          <details class="raid-cart" id="raid-cart">
+            <summary>
+              <span>Panier de raid</span>
+              <span class="raid-cart-meta"><b id="raid-cart-count">0</b> item</span>
+            </summary>
+
+            <div class="raid-cart-body">
+              <div id="raid-cart-empty" class="raid-cart-empty">
+                Votre panier est vide. Cliquez sur “+” pour ajouter un item.
+              </div>
+
+              <div id="raid-cart-list"></div>
+              <div id="raid-cart-totals"></div>
+
+              <div class="raid-cart-actions">
+                <button id="raid-cart-copy" class="mini-btn" type="button">Copier</button>
+                <button id="raid-cart-clear" class="mini-btn" type="button">Vider</button>
+              </div>
+            </div>
+          </details>
+
         </div>
       </section>
     </section>
