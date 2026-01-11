@@ -1,87 +1,154 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8">
   <title>Rust Raid Calc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div>
-      <h1>Lulu raid calculateur</h1>
-      <p>Ressources → calcul du boom + plan de craft (garde / convertis / étapes)</p>
-    </div>
-  </div>
-</header>
-
-<section class="resources">
-  <div class="resources-inner">
-    <h2>Vos ressources actuelles</h2>
-
-    <div class="inputs">
-      <label>Sulfur <input id="sulfur" type="number" value="0"></label>
-      <label>Charcoal <input id="charcoal" type="number" value="99999"></label>
-      <label>Gunpowder <input id="gunpowder" type="number" value="0"></label>
-      <label>Explosives <input id="explosives" type="number" value="0"></label>
-
-      <label>Low Grade <input id="lowgrade" type="number" value="0"></label>
-      <label>Metal Frags <input id="metalfrags" type="number" value="0"></label>
-      <label>Metal Pipes <input id="pipes" type="number" value="0"></label>
-
-      <label>Cloth <input id="cloth" type="number" value="0"></label>
-      <label>Tech Trash <input id="techtrash" type="number" value="0"></label>
-      <label>Rope <input id="rope" type="number" value="0"></label>
-      <label>Small Stash <input id="smallstash" type="number" value="0"></label>
-
-      <label>Metal Spring <input id="spring" type="number" value="0"></label>
-      <label>HQM <input id="hqm" type="number" value="0"></label>
-    </div>
-
-    <button id="calc" class="btn">Calculer</button>
-  </div>
-</section>
-
-<main class="container">
-  <h2 class="section-title">BOOM À CRAFTER</h2>
-  <div id="cards" class="grid"></div>
-</main>
-
-<!-- OBJECTIF (déplacé sous les cards) -->
-<section class="goal">
-  <div class="goal-inner">
-    <h2>Objectif de craft</h2>
-
-    <div class="goal-row">
-      <div class="goal-field">
-        <label>Objet</label>
-        <select id="goal-item"></select>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <a class="brand" href="#tab-craft" aria-label="Retour au Plan de craft">
+          <img class="brand-logo" src="logo.png" alt="Lulu raid calculateur" loading="eager">
+        </a>
       </div>
 
-      <div class="goal-field">
-        <label>Quantité</label>
-        <input id="goal-qty" type="number" min="0" value="15">
-      </div>
 
-      <div class="goal-field checkbox">
-        <label class="checkline">
-          <input id="goal-use-stock" type="checkbox" checked>
-          Prendre en compte mes ressources actuelles
-        </label>
-        <div class="hint">Décoche pour voir le “from scratch”.</div>
-      </div>
-
-      <button id="goal-calc" class="btn goal-btn">Calculer besoins</button>
+      <nav class="topbar-nav" aria-label="Menu">
+        <button class="nav-btn is-active" type="button" data-target="tab-craft">Plan de craft</button>
+        <button class="nav-btn" type="button" data-target="tab-decay">Timer decay</button>
+        <button class="nav-btn is-disabled" type="button" disabled>Destruction (bientôt)</button>
+      </nav>
     </div>
+  </header>
 
-    <div id="goal-result" class="goal-result">Choisis un item et une quantité.</div>
-  </div>
-</section>
+  <main>
+    <!-- ONGLET 1 -->
+    <section id="tab-craft" class="tab-pane is-active">
 
-<script src="data.js"></script>
-<script src="app.js"></script>
+      <section class="resources">
+        <div class="resources-inner">
+          <h2>Vos ressources actuelles</h2>
+
+          <div class="inputs">
+            <label>Sulfur <input id="sulfur" type="number" value="0"></label>
+            <label>Charcoal <input id="charcoal" type="number" value="999999"></label>
+            <label>Gunpowder <input id="gunpowder" type="number" value="0"></label>
+            <label>Explosives <input id="explosives" type="number" value="0"></label>
+
+            <label>Low Grade <input id="lowgrade" type="number" value="0"></label>
+            <label>Metal Frags <input id="metalfrags" type="number" value="0"></label>
+            <label>Metal Pipes <input id="pipes" type="number" value="0"></label>
+
+            <label>Cloth <input id="cloth" type="number" value="0"></label>
+            <label>Tech Trash <input id="techtrash" type="number" value="0"></label>
+            <label>Rope <input id="rope" type="number" value="0"></label>
+            <label>Small Stash <input id="smallstash" type="number" value="0"></label>
+
+            <label>Metal Spring <input id="spring" type="number" value="0"></label>
+            <label>HQM <input id="hqm" type="number" value="0"></label>
+          </div>
+
+          <button id="calc" class="btn">Calculer</button>
+        </div>
+      </section>
+
+      <div class="container">
+        <h2 class="section-title">BOOM À CRAFTER</h2>
+        <div id="cards" class="grid"></div>
+      </div>
+
+      <section class="goal">
+        <div class="goal-inner">
+          <h2>Objectif de craft</h2>
+
+          <div class="goal-row">
+            <div class="goal-field">
+              <label>Objet</label>
+              <select id="goal-item"></select>
+            </div>
+
+            <div class="goal-field">
+              <label>Quantité</label>
+              <input id="goal-qty" type="number" min="0" value="15">
+            </div>
+
+            <div class="goal-field checkbox">
+              <label class="checkline">
+                <input id="goal-use-stock" type="checkbox" checked>
+                Prendre en compte mes ressources actuelles
+              </label>
+              <div class="hint">Décoche pour voir le “from scratch”.</div>
+            </div>
+
+            <button id="goal-calc" class="btn goal-btn">Calculer besoins</button>
+          </div>
+
+          <div id="goal-result" class="goal-result">Choisis un item et une quantité.</div>
+        </div>
+      </section>
+
+    </section>
+
+    <!-- ONGLET 2 : TIMER DECAY -->
+    <section id="tab-decay" class="tab-pane">
+      <section class="decay">
+        <div class="decay-inner">
+          <h2>Timer decay</h2>
+
+          <div class="decay-row">
+            <label class="decay-field">
+              Type de pièce
+              <select id="decay-piece" autocomplete="off"></select>
+            </label>
+
+            <label class="decay-field">
+              Matériau
+              <select id="decay-mat" autocomplete="off"></select>
+            </label>
+
+            <label class="decay-field">
+              PV actuel
+              <input id="decay-hp" type="number" min="0" value="423" autocomplete="off">
+            </label>
+
+            <label class="decay-field">
+              PV max
+              <div class="decay-max-wrap">
+                <input id="decay-max" type="number" min="1" value="500" autocomplete="off">
+                <button id="decay-max-lock" type="button" class="mini-btn lock-btn" aria-pressed="true"
+                  title="Déverrouiller PV max">
+                  🔒
+                </button>
+              </div>
+            </label>
+
+            <button id="decay-calc" class="btn decay-btn">Calculer le temps restant</button>
+
+            <div class="hint decay-hint" id="decay-max-hint"></div>
+          </div>
+
+          <div class="decay-result" id="decay-result">
+            Choisis un preset, puis renseigne les PV.
+          </div>
+
+          <div class="decay-actions">
+            <button id="decay-copy" type="button" class="mini-btn">Copier le timer</button>
+            <button id="decay-copy-end" type="button" class="mini-btn">Copier l’heure de fin</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
-</html>
 
+</html>
